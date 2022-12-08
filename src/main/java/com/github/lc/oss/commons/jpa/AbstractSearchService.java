@@ -7,22 +7,18 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Set;
-
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Expression;
-import javax.persistence.criteria.Fetch;
-import javax.persistence.criteria.Join;
-import javax.persistence.criteria.Order;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
 
 import com.github.lc.oss.commons.serialization.Jsonable;
 import com.github.lc.oss.commons.serialization.PagedResult;
+
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.TypedQuery;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Expression;
+import jakarta.persistence.criteria.Order;
+import jakarta.persistence.criteria.Predicate;
 
 public abstract class AbstractSearchService {
     private static final char SQL_ESCAPE_CHAR = '\\';
@@ -46,18 +42,22 @@ public abstract class AbstractSearchService {
     @PersistenceContext
     private EntityManager entityManager;
 
-    protected <Type extends Jsonable> PagedResult<Type> getPage(CriteriaQuery<Type> query, Root<?> root, int pageSize, int pageNumber) {
-        TypedQuery<Type> typedQuery = this.getEntityManager().createQuery(query);
-        typedQuery.setFirstResult(pageSize * pageNumber);
-        typedQuery.setMaxResults(pageSize);
-        List<Type> result = typedQuery.getResultList();
+    protected <Type extends Jsonable> PagedResult<Type> getPage(AbstractQueryBuilder<Type> queryBuilder, SearchCriteria searchCriteria) {
+        CriteriaBuilder cb = this.getCriteriaBuilder();
+        CriteriaQuery<Type> dataQuery = queryBuilder.forData(searchCriteria, cb);
+        CriteriaQuery<Long> countQuery = queryBuilder.forCount(searchCriteria, cb);
 
-        long total = this.count(query, root);
+        TypedQuery<Type> typedDataQuery = this.getEntityManager().createQuery(dataQuery);
+        typedDataQuery.setFirstResult(searchCriteria.getPageSize() * searchCriteria.getPageNumber());
+        typedDataQuery.setMaxResults(searchCriteria.getPageSize());
+        List<Type> result = typedDataQuery.getResultList();
+
+        TypedQuery<Long> typedCountQuery = this.getEntityManager().createQuery(countQuery);
+        long total = typedCountQuery.getSingleResult().longValue();
 
         PagedResult<Type> results = new PagedResult<>();
         results.setData(result);
         results.setTotal(total);
-        results.setData(result);
         return results;
     }
 
@@ -111,58 +111,6 @@ public abstract class AbstractSearchService {
 
     protected <Type> void where(CriteriaQuery<Type> query, Collection<Predicate> wheres) {
         query.where(wheres.toArray(new Predicate[wheres.size()]));
-    }
-
-    /*
-     * count and associated methods from https://stackoverflow.com/a/10557039
-     */
-    protected long count(final CriteriaQuery<?> selectQuery, Root<?> root) {
-        CriteriaQuery<Long> query = this.createCountQuery(selectQuery, root);
-        return this.getEntityManager().createQuery(query).getSingleResult();
-    }
-
-    private CriteriaQuery<Long> createCountQuery(final CriteriaQuery<?> criteria, final Root<?> root) {
-        CriteriaBuilder cb = this.getCriteriaBuilder();
-        final CriteriaQuery<Long> countQuery = cb.createQuery(Long.class);
-        /*
-         * Modified - original got class from criteria but that may not be an entity
-         * when using projections
-         */
-        final Root<?> countRoot = countQuery.from(root.getJavaType());
-
-        this.doJoins(root.getJoins(), countRoot);
-        this.doJoinsOnFetches(root.getFetches(), countRoot);
-
-        countQuery.select(cb.count(countRoot));
-        Predicate where = criteria.getRestriction();
-        if (where != null) {
-            countQuery.where(where);
-        }
-
-        countRoot.alias(root.getAlias());
-
-        return countQuery.distinct(criteria.isDistinct());
-    }
-
-    @SuppressWarnings("unchecked")
-    private void doJoinsOnFetches(Set<? extends Fetch<?, ?>> joins, Root<?> root) {
-        this.doJoins((Set<? extends Join<?, ?>>) joins, root);
-    }
-
-    private void doJoins(Set<? extends Join<?, ?>> joins, Root<?> root) {
-        for (Join<?, ?> join : joins) {
-            Join<?, ?> joined = root.join(join.getAttribute().getName(), join.getJoinType());
-            joined.alias(join.getAlias());
-            this.doJoins(join.getJoins(), joined);
-        }
-    }
-
-    private void doJoins(Set<? extends Join<?, ?>> joins, Join<?, ?> root) {
-        for (Join<?, ?> join : joins) {
-            Join<?, ?> joined = root.join(join.getAttribute().getName(), join.getJoinType());
-            joined.alias(join.getAlias());
-            this.doJoins(join.getJoins(), joined);
-        }
     }
 
     protected String escape(String str) {
