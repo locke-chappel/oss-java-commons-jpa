@@ -1,4 +1,4 @@
-package com.github.lc.oss.commons.jpa;
+package io.github.lc.oss.commons.jpa;
 
 import java.util.Arrays;
 import java.util.Set;

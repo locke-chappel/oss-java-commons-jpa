@@ -1,4 +1,4 @@
-package com.github.lc.oss.commons.jpa;
+package io.github.lc.oss.commons.jpa;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -8,8 +8,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import com.github.lc.oss.commons.serialization.Jsonable;
-import com.github.lc.oss.commons.serialization.PagedResult;
+import io.github.lc.oss.commons.serialization.Jsonable;
+import io.github.lc.oss.commons.serialization.PagedResult;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;

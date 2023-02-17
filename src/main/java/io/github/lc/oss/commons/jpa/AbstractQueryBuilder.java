@@ -1,8 +1,8 @@
-package com.github.lc.oss.commons.jpa;
+package io.github.lc.oss.commons.jpa;
 
 import java.util.ArrayList;
 
-import com.github.lc.oss.commons.serialization.Jsonable;
+import io.github.lc.oss.commons.serialization.Jsonable;
 
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;

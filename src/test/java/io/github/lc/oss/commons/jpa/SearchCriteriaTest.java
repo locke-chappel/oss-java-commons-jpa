@@ -1,4 +1,4 @@
-package com.github.lc.oss.commons.jpa;
+package io.github.lc.oss.commons.jpa;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

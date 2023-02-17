@@ -1,8 +1,8 @@
-package com.github.lc.oss.commons.jpa;
+package io.github.lc.oss.commons.jpa;
 
 import java.util.Set;
 
-import com.github.lc.oss.commons.util.TypedEnumCache;
+import io.github.lc.oss.commons.util.TypedEnumCache;
 
 public enum SortDirection {
     Asc,

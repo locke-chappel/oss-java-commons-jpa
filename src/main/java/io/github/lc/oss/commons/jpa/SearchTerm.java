@@ -1,4 +1,4 @@
-package com.github.lc.oss.commons.jpa;
+package io.github.lc.oss.commons.jpa;
 
 public interface SearchTerm {
     String name();

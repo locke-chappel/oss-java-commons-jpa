@@ -1,4 +1,4 @@
-package com.github.lc.oss.commons.jpa;
+package io.github.lc.oss.commons.jpa;
 
 public class TransactionRollbackException extends RuntimeException {
     private static final long serialVersionUID = -2969406499868046825L;

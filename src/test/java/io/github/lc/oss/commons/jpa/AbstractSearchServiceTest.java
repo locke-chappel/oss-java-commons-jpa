@@ -1,4 +1,4 @@
-package com.github.lc.oss.commons.jpa;
+package io.github.lc.oss.commons.jpa;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -11,10 +11,9 @@ import org.mockito.Mockito;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
-import com.github.lc.oss.commons.serialization.Jsonable;
-import com.github.lc.oss.commons.serialization.PagedResult;
-import com.github.lc.oss.commons.testing.AbstractMockTest;
-
+import io.github.lc.oss.commons.serialization.Jsonable;
+import io.github.lc.oss.commons.serialization.PagedResult;
+import io.github.lc.oss.commons.testing.AbstractMockTest;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import jakarta.persistence.criteria.CriteriaBuilder;
