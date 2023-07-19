@@ -58,7 +58,7 @@ public class AbstractSearchServiceTest extends AbstractMockTest {
                 Assertions.assertEquals(0, invocation.getArguments().length);
                 return null;
             }
-        }).when(query).orderBy((Order[]) ArgumentMatchers.any());
+        }).when(query).orderBy(ArgumentMatchers.any(Order[].class));
 
         this.service.orderBy(query, orders);
     }
@@ -77,7 +77,7 @@ public class AbstractSearchServiceTest extends AbstractMockTest {
                 Assertions.assertEquals(2, invocation.getArguments().length);
                 return null;
             }
-        }).when(query).orderBy((Order[]) ArgumentMatchers.any());
+        }).when(query).orderBy(ArgumentMatchers.any(Order[].class));
 
         this.service.orderBy(query, orders);
     }
@@ -146,7 +146,7 @@ public class AbstractSearchServiceTest extends AbstractMockTest {
                 Assertions.assertEquals(0, invocation.getArguments().length);
                 return null;
             }
-        }).when(query).where((Predicate[]) ArgumentMatchers.any());
+        }).when(query).where(ArgumentMatchers.any(Predicate[].class));
 
         this.service.where(query, wheres);
     }
@@ -165,7 +165,7 @@ public class AbstractSearchServiceTest extends AbstractMockTest {
                 Assertions.assertEquals(2, invocation.getArguments().length);
                 return null;
             }
-        }).when(query).where((Predicate[]) ArgumentMatchers.any());
+        }).when(query).where(ArgumentMatchers.any(Predicate[].class));
 
         this.service.where(query, wheres);
     }
