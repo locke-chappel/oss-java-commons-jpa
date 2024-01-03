@@ -5,11 +5,11 @@
     <parent>
         <groupId>io.github.locke-chappel.oss.commons</groupId>
         <artifactId>parent</artifactId>
-        <version>1.0.8</version>
+        <version>1.0.9</version>
     </parent>
 
     <artifactId>jpa</artifactId>
-    <version>1.0.8</version>
+    <version>1.0.9</version>
     <name>${project.artifactId}</name>
     <description>A collection of JPA extensions to assist with building complex queries</description>
     <url>https://github.com/locke-chappel/oss-commons-jpa</url>
