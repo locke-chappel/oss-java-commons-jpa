@@ -12,7 +12,7 @@
     <version>1.0.10</version>
     <name>${project.artifactId}</name>
     <description>A collection of JPA extensions to assist with building complex queries</description>
-    <url>https://github.com/locke-chappel/oss-commons-jpa</url>
+    <url>https://github.com/locke-chappel/oss-java-commons-jpa</url>
 
     <licenses>
         <license>
